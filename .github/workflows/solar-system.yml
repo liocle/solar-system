@@ -7,7 +7,7 @@ on:
       - main # Only trigger for 'main'
       - "feature/*" # Or branches matching 'feature/*'
 
-env:
+env: # workflow level to be used by any job
   MONGO_URI: "mongodb+srv://${{ vars.MONGO_USERNAME }}:${{ secrets.MONGO_PASSWORD }}@supercluster.d83jj.mongodb.net/superData?retryWrites=true&w=majority"
   MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
@@ -30,3 +30,9 @@ jobs:
 
       - name: Unit Testing
         run: npm test
+
+      - name: Archive test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: Mocha-Test-Result
+          path: test-results.xml
